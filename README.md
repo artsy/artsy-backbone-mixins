@@ -77,6 +77,15 @@ Turns 10 3/4 into superscript html like 10 `<sup>3/4</sup>`.
 artist.superscriptFractions('10 3/4')
 ````
 
+### expressAsMetric([@dimensions('cm')])
+
+Converts porely formatted metric dimensions that appear as fractions into a proper metric decimal formatting.
+
+````coffeescript
+artist.set dimensions: { cm: '10 3/4 x 8 1/2' }
+artist.dimensionsAsMetric() # "10.75 x 8.5 cm"
+````
+
 ## Fetch
 
 * Remember to pass in the artsy url.

@@ -102,7 +102,7 @@ _Remember to pass in the artsy url._
 { Fetch } = require 'artsy-backbone-mixins'
 { ARTSY_URL } = require('sharify').data
 
-class Artwork extends Backbone.Model
+class Artworks extends Backbone.Collection
 
   _.extend @prototype, Fetch(ARTSY_URL)
 
@@ -124,6 +124,64 @@ Fetches a set by key and populates the collection with the first result.
 ````coffeescript
 featuredLinks.fetchSetItemsByKey 'homepage:featured-sections', success: ->
   featuredLinks.first().get('name').should.equal 'Magnum Photos'
+````
+
+## AToZ
+
+````coffeescript
+{ Fetch } = require 'artsy-backbone-mixins'
+{ AToZ } = require('sharify').data
+
+class Artworks extends Backbone.Collection
+
+  _.extend @prototype, AToZ
+
+````
+
+### groupByAlpha
+
+Sorts a collection groupped alphabetically based on the `alphaSortKey` function on the model.
+
+Sample output:
+
+````
+{
+  '0-9': [ model_instance, model_instance, model_instance ],
+  A: [ model_instance, model_instance, model_instance ],
+  // ...
+  Z: [ model_instance, model_instance, model_instance ]
+}
+````
+
+````coffeescript
+artworks.alphaSortKey = -> @get 'sortable_id'
+artworks.groupByAlpha()
+````
+
+### groupByAlphaWithColumns
+
+Groups collection output in a format suitable for rendering in an A-Z list with a specified number of columns.
+
+Sample output:
+
+````
+[
+ { letter: '0-9', columns: [ ... ] },
+ { letter: 'A', columns: [ ... ] },
+  ...
+ { letter: 'Z', columns: [ ... ] }
+]
+// Each column is a 2D array of objects with `href`, and `name` properties:
+columns: [
+  [ { href: '...', name: '...' }, ... { href: '...', name: '...' } ],
+  [ { href: '...', name: '...' }, ... { href: '...', name: '...' } ],
+  [ { href: '...', name: '...' }, ... { href: '...', name: '...' } ]
+]
+````
+
+````coffeescript
+artworks.alphaSortKey = -> @get 'sortable_id'
+artworks.groupByAlpha()
 ````
 
 ## Contributing

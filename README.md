@@ -60,30 +60,38 @@ class Artwork extends Backbone.Model
 
 ````
 
-### dimensions([metric])
+### dimensions([options])
 
-Commonly dimensions in Artsy's API is structured like `{ dimensions: { in: "10 x 20" }, metric: "in" }`. This provides a convenient default
+Commonly dimensions in Artsy's API are structured like `{ dimensions: { in: "10 x 20" }, metric: "in" }`. This provides a convenient method for outputting a formatted dimension string based on this data. Pass in some options for better formatting.
 
 ````coffeescript
-artist.dimensions()
-artist.dimensions('cm')
+artist.set { dimensions: { in: "10 x 20 in", cm: '13 1/2 x 24  2/3 cm' }, metric: "in" }
+artist.dimensions() # '10 x 20 in'
+artist.dimensions(metric: 'cm') # 13 1/2  x 24 2/3 cm
+artist.dimensions(metric: 'cm', format: 'superscript') # 13 ½  x 24 ⅔ cm
+artist.dimensions(format: 'decimal') # 13.5  x 24.33 cm
 ````
 
-### superscriptFractions(string)
+#### options.metric: ('in' or 'cm') (defaults to `@get('metric')`)
+
+````coffeescript
+artist.dimensions(metric: 'cm')
+````
+
+#### options.format: 'superscript'
 
 Turns 10 3/4 into superscript html like 10 `<sup>3/4</sup>`.
 
 ````coffeescript
-artist.superscriptFractions('10 3/4')
+artist.dimensions(format: 'superscript')
 ````
 
-### expressAsMetric([@dimensions('cm')])
+#### options.format: 'decimal'
 
 Converts porely formatted metric dimensions that appear as fractions into a proper metric decimal formatting.
 
 ````coffeescript
-artist.set dimensions: { cm: '10 3/4 x 8 1/2' }
-artist.dimensionsAsMetric() # "10.75 x 8.5 cm"
+artist.dimensions(format: 'decimal')
 ````
 
 ## Fetch

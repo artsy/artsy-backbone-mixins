@@ -140,7 +140,7 @@ class Artworks extends Backbone.Collection
 
 ### groupByAlpha
 
-Sorts a collection groupped alphabetically based on the `alphaSortKey` function on the model.
+Sorts a collection groupped alphabetically based on the `alphaSortKey` function on the model. If there is no `alphaSortKey` function on the model it will default to `@get 'sortable_id'`.
 
 Sample output:
 
@@ -154,13 +154,13 @@ Sample output:
 ````
 
 ````coffeescript
-artworks.alphaSortKey = -> @get 'sortable_id'
+artworks.model.alphaSortKey = -> @get 'title'
 artworks.groupByAlpha()
 ````
 
 ### groupByAlphaWithColumns
 
-Groups collection output in a format suitable for rendering in an A-Z list with a specified number of columns.
+Groups collection output in a format suitable for rendering in an A-Z list with a specified number of columns. The models must implement a `href` and `displayName` method.
 
 Sample output:
 
@@ -180,8 +180,9 @@ columns: [
 ````
 
 ````coffeescript
-artworks.alphaSortKey = -> @get 'sortable_id'
-artworks.groupByAlpha()
+artworks.model.href = -> "/artwork/#{@get 'id'}"
+artworks.model.displayName = -> @get 'title'
+artworks.groupByAlphaWithColumns()
 ````
 
 ## Contributing

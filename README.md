@@ -211,7 +211,7 @@ featuredLink.imageUrl('small')
 
 Tell `imageUrl` which version to look for first. Defaults to the first item in the `image_versions` or `versions` attribute.
 
-### hasImage(version)
+#### hasImage(version)
 
 Checks the `image_versions` or `versions` attribute for the image version and returns true/false.
 

@@ -60,7 +60,7 @@ describe 'fetch set items by key mixin', ->
           display_on_desktop: true
         }
       ]
-      Backbone.sync.args[1][2].url.should.include 'set/8/items'
+      Backbone.sync.args[1][2].url.should.include 'set/7/items'
       Backbone.sync.args[1][2].success [{ name: 'FooBar' }]
 
     it 'returns an empty collection if there are no sets', (done) ->

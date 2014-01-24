@@ -111,7 +111,7 @@ featuredLinks.fetchSetItemsByKey 'homepage:featured-sections', success: ->
 
 ## Contributing
 
-Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `make test`.
+Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `npm test`.
 
 ## License
 

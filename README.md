@@ -1,6 +1,6 @@
 # artsy-backbone-mixins
 
-A library of Backbone mixins that DRY up some common domain logic and Artsy API rabbit holes.
+A library of Backbone mixins that DRY up some common domain logic and Artsy API rabbit holes. Used internally at Artsy, but maybe you'll find some useful patterns here.
 
 Functions are namespaced by common sets of functionality such as "Markdown", "Image", or "Dimensions".
 

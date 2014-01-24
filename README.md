@@ -69,7 +69,7 @@ artist.set { dimensions: { in: "10 x 20 in", cm: '13 1/2 x 24  2/3 cm' }, metric
 artist.dimensions() # '10 x 20 in'
 artist.dimensions(metric: 'cm') # 13 1/2  x 24 2/3 cm
 artist.dimensions(metric: 'cm', format: 'superscript') # 13 ½  x 24 ⅔ cm
-artist.dimensions(format: 'decimal') # 13.5  x 24.33 cm
+artist.dimensions(metric: 'cm', format: 'decimal') # 13.5  x 24.33 cm
 ````
 
 #### options.metric: ('in' or 'cm') (defaults to `@get('metric')`)

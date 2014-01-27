@@ -19,8 +19,7 @@
   },
   "scripts": {
   	"test": "mocha",
-    "prepublish": "coffee -c lib",
-    "postpublish": "rm lib/*.js"
+    "preinstall": "coffee -c lib"
 	},
   "dependencies": {
     "showdown": "git://github.com/craigspaeth/showdown.git",

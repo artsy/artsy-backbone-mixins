@@ -9,8 +9,8 @@ client = undefined
 # Setup redis client
 if NODE_ENV == 'development'
   client = redis.createClient()
-else if NODE_ENV != 'test'
-  red = parse(redisUrl || '');
+else if NODE_ENV != 'test' and REDIS_URL
+  red = parse(REDIS_URL || '');
   client = redis.createClient(red.port, red.hostname);
   client.auth(red.auth.split(':')[1]);
 

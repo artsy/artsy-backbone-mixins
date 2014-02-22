@@ -7,11 +7,9 @@ redis     = require 'redis'
 client = undefined
 
 # Setup redis client
-if window
-  null
-else if nodeEnv == 'development'
+if NODE_ENV == 'development'
   client = redis.createClient()
-else if nodeEnv != 'test'
+else if NODE_ENV != 'test'
   red = parse(redisUrl || '');
   client = redis.createClient(red.port, red.hostname);
   client.auth(red.auth.split(':')[1]);

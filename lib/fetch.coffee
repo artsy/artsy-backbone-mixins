@@ -2,7 +2,7 @@ _         = require 'underscore'
 Backbone  = require 'backbone'
 redis     = require 'redis'
 { parse } = require("url")
-{ REDIS_URL, DEFAULT_CACHE_TIME, NODE_ENV } = require('../').config
+{ REDIS_URL, DEFAULT_CACHE_TIME, NODE_ENV } = require('../config.js')
 
 client = undefined
 

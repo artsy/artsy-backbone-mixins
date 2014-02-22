@@ -29,7 +29,8 @@
   "dependencies": {
     "showdown": "git://github.com/craigspaeth/showdown.git",
     "underscore": "*",
-    "backbone": "*"
+    "backbone": "*",
+    "redis": "*"
   },
   "devDependencies": {
     "coffee-script": "*",

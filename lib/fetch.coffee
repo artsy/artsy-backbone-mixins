@@ -22,7 +22,6 @@ module.exports = (artsyUrl) ->
 
   fetchUntilEnd: (options = {}) ->
     key = "fetch-until-end:#{@get('id')}"
-    console.log client, '<<<<<<<<<<<<<', key
     success = =>
       page = 0
       opts = _.clone(options)

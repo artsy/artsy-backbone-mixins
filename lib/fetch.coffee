@@ -2,7 +2,7 @@ _         = require 'underscore'
 Backbone  = require 'backbone'
 redis     = require 'redis'
 { parse } = require("url")
-{ REDIS_URL, DEFAULT_CACHE_TIME, NODE_ENV } = require('../config.js')
+{ REDIS_URL, DEFAULT_CACHE_TIME, NODE_ENV } = require('../').config
 
 client = undefined
 
@@ -21,8 +21,8 @@ module.exports = (artsyUrl) ->
   # @param {Object} options Backbone sync options like `success` and `error`
 
   fetchUntilEnd: (options = {}) ->
-    console.log client, '<<<<<<<<<<<<<',
-    key = "fetch-until-end:#{@url}"
+    key = "fetch-until-end:#{@get('id')}"
+    console.log client, '<<<<<<<<<<<<<', key
     success = =>
       page = 0
       opts = _.clone(options)

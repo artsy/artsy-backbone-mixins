@@ -1,18 +1,19 @@
 _         = require 'underscore'
 Backbone  = require 'backbone'
-redis     = require 'redis'
 { parse } = require("url")
 { REDIS_URL, DEFAULT_CACHE_TIME, NODE_ENV } = require '../config'
 
 client = undefined
 
 # Setup redis client
-if NODE_ENV == 'development'
-  client = redis.createClient()
-else if NODE_ENV != 'test' and REDIS_URL
-  red = parse(REDIS_URL || '');
-  client = redis.createClient(red.port, red.hostname);
-  client.auth(red.auth.split(':')[1]);
+if not window?
+  redis = require 'redis'
+  if NODE_ENV == 'development' and
+    client = redis.createClient()
+  else if NODE_ENV != 'test' and REDIS_URL?
+    red = parse(REDIS_URL || '');
+    client = redis.createClient(red.port, red.hostname);
+    client.auth(red.auth.split(':')[1]);
 
 module.exports = (artsyUrl) ->
 
@@ -21,7 +22,7 @@ module.exports = (artsyUrl) ->
   # @param {Object} options Backbone sync options like `success` and `error`
 
   fetchUntilEnd: (options = {}) ->
-    key = "fetch-until-end:#{@get('id')}"
+    key = "fetch-until-end:#{JSON.stringify(options)}"
     success = =>
       page = 0
       opts = _.clone(options)
@@ -32,7 +33,7 @@ module.exports = (artsyUrl) ->
           success: (col, res) =>
             if res.length is 0
               if client
-                client.set key, @models.toJSON()
+                client.set key, JSON.stringify(@models)
                 client.expire key, DEFAULT_CACHE_TIME
               options.success?(@)
             else
@@ -43,7 +44,7 @@ module.exports = (artsyUrl) ->
     if client
       client.get key, (err, json) =>
         if json
-          @reset json
+          @reset JSON.parse(json)
           options.success?(@)
         else
           success()

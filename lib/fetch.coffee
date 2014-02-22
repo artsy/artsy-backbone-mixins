@@ -21,8 +21,9 @@ module.exports = (artsyUrl) ->
   # @param {Object} options Backbone sync options like `success` and `error`
 
   fetchUntilEnd: (options = {}) ->
+    console.log client, '<<<<<<<<<<<<<',
     key = "fetch-until-end:#{@url()}"
-    success = ->
+    success = =>
       page = 0
       opts = _.clone(options)
       fetchPage = =>

@@ -88,3 +88,6 @@ describe 'Image Mixin', ->
       it 'returns false if there are no image versions', ->
         @model.set 'image_versions', null
         @model.hasImage().should.be.false
+
+      it 'always allows for access to the original version', ->
+        @model.hasImage('original').should.be.true

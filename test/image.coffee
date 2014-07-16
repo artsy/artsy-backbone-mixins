@@ -1,7 +1,7 @@
-_               = require 'underscore'
-sinon           = require 'sinon'
-Backbone        = require 'backbone'
-imageMixin      = require '../lib/image'
+_ = require 'underscore'
+sinon = require 'sinon'
+Backbone = require 'backbone'
+imageMixin = require '../lib/image'
 
 describe 'Image Mixin', ->
 

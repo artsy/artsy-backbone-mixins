@@ -21,7 +21,7 @@ module.exports.methods =
       @fetch _.extend opts,
         data: _.extend (opts.data ? {}), page: page += 1
         remove: false
-        complete: null
+        complete: ->
         success: (col, res) =>
           options.each? col, res
           if res.length is 0

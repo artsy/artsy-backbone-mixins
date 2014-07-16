@@ -1,4 +1,4 @@
-_   = require 'underscore'
+_ = require 'underscore'
 
 module.exports = (secureImagesUrl, imagesUrlPrefix='http://static%d.artsy.net') ->
 

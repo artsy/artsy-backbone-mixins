@@ -27,7 +27,7 @@
     "preinstall": "coffee -c lib"
   },
   "dependencies": {
-    "showdown": "git://github.com/craigspaeth/showdown.git",
+    "markdown": "*",
     "underscore": "*",
     "backbone": "*"
   },

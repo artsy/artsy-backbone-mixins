@@ -27,7 +27,7 @@
     "preinstall": "coffee -c lib"
   },
   "dependencies": {
-    "markdown": "*",
+    "marked": "*",
     "underscore": "*",
     "backbone": "*"
   },

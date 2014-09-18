@@ -32,6 +32,7 @@
     "backbone": "*"
   },
   "devDependencies": {
+    "antigravity": "git+ssh://git@github.com:artsy/antigravity.git",
     "coffee-script": "*",
     "mocha": "*",
     "should": "*",

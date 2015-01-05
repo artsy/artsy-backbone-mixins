@@ -17,11 +17,13 @@
     "email": "craigspaeth@gmail.com",
     "url": "http://craigspaeth.com"
   },
-  "contributors": [{
-    "name": "Brennan Moore",
-    "email": "brennanmoore@gmail.com",
-    "url": "http://brennanmoore.com"
-  }],
+  "contributors": [
+    {
+      "name": "Brennan Moore",
+      "email": "brennanmoore@gmail.com",
+      "url": "http://brennanmoore.com"
+    }
+  ],
   "scripts": {
     "test": "mocha",
     "preinstall": "coffee -c lib"
@@ -29,7 +31,8 @@
   "dependencies": {
     "marked": "*",
     "underscore": "*",
-    "backbone": "*"
+    "backbone": "*",
+    "q": "^1.1.2"
   },
   "devDependencies": {
     "antigravity": "git+ssh://git@github.com:artsy/antigravity.git",

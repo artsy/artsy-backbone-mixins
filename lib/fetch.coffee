@@ -1,5 +1,6 @@
 _ = require 'underscore'
 Q = require 'q'
+Qs = require 'qs'
 Backbone = require 'backbone'
 { parse } = require 'url'
 
@@ -69,6 +70,8 @@ module.exports.methods =
 
     options.remove = false
 
+    options.data = "#{Qs.stringify(options.data, {indices: false})}" if options.stringify
+
     options.error = =>
       dfd.reject arguments...
       error? arguments...
@@ -87,12 +90,22 @@ module.exports.methods =
         dfd.resolve this
         success? this
       else
+
+        if typeof options.data is 'string' and options.stringify
+          options.data = Qs.parse options.data
+
         remaining = Math.ceil(total / size) - 1
 
         Q.allSettled(_.times(remaining, (n) =>
+          # if stringify flag is passed, convert the data object into a query string
+          # (stringify is used to keep params with arrays formated properly)
+          data = _.extend(_.omit(options.data, 'total_count'), { page: n + 2 })
+          data = "#{Qs.stringify(data, {indices: false})}" if options.stringify
+
           @fetch _.extend _.omit(options, 'success', 'error'), {
-            data: _.extend _.omit(options.data, 'total_count'), { page: n + 2 }
+            data: data
           }
+
         )).then(=>
           dfd.resolve this
           success? this

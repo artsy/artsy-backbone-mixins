@@ -66,9 +66,6 @@ module.exports.methods =
 
     { success, error } = options # Pull out original success and error callbacks
 
-    if typeof options.data is 'string' and options.stringify
-      options.data = Qs.parse options.data
-
     { size } = options.data = _.defaults (options.data or {}), total_count: 1, size: 10
 
     options.remove = false

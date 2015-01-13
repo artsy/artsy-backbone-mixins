@@ -66,7 +66,14 @@ module.exports.methods =
 
     { success, error } = options # Pull out original success and error callbacks
 
+    if typeof options.data is 'string' and options.stringify
+      options.data = Qs.parse options.data
+
+    { size } = options.data = _.defaults (options.data or {}), total_count: 1, size: 10
+
     options.remove = false
+
+    options.data = "#{Qs.stringify(options.data, {indices: false})}" if options.stringify
 
     options.error = =>
       dfd.reject arguments...
@@ -86,6 +93,10 @@ module.exports.methods =
         dfd.resolve this
         success? this
       else
+
+        if typeof options.data is 'string' and options.stringify
+          options.data = Qs.parse options.data
+
         remaining = Math.ceil(total / size) - 1
 
         Q.allSettled(_.times(remaining, (n) =>

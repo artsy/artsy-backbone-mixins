@@ -172,3 +172,18 @@ describe 'fetch until end in parallel mixin', ->
     it 'supports the error callback'
 
     it 'supports the each callback' # todo
+
+    it 'accepts a string as options.data', ->
+      @collection.fetchUntilEndInParallel(url: 'http://foo.bar/baz', data: "type=CoolType&type=DumbType&size=12", stringify: true)
+      Backbone.sync.args[0][2].res = headers: 'x-total-count': 25
+      Backbone.sync.args[0][2].success([])
+      _.map(Backbone.sync.args, (args) -> args[2].url).should.eql [
+        'http://foo.bar/baz'
+        'http://foo.bar/baz'
+        'http://foo.bar/baz'
+      ]
+      _.map(Backbone.sync.args, (args) -> args[2].data).should.eql [
+        'type=CoolType&type=DumbType&size=12'
+        'type=CoolType&type=DumbType&size=12&page=2'
+        'type=CoolType&type=DumbType&size=12&page=3'
+      ]

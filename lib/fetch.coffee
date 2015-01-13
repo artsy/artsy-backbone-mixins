@@ -70,7 +70,7 @@ module.exports.methods =
 
     options.remove = false
 
-    options.data = "#{Qs.stringify(options.data, {indices: false})}" if options.stringify
+    options.data = decodeURIComponent Qs.stringify(options.data, {indices: false})
 
     options.error = =>
       dfd.reject arguments...
@@ -91,8 +91,7 @@ module.exports.methods =
         success? this
       else
 
-        if typeof options.data is 'string' and options.stringify
-          options.data = Qs.parse options.data
+        options.data = Qs.parse options.data
 
         remaining = Math.ceil(total / size) - 1
 
@@ -100,7 +99,7 @@ module.exports.methods =
           # if stringify flag is passed, convert the data object into a query string
           # (stringify is used to keep params with arrays formated properly)
           data = _.extend(_.omit(options.data, 'total_count'), { page: n + 2 })
-          data = "#{Qs.stringify(data, {indices: false})}" if options.stringify
+          data = decodeURIComponent Qs.stringify(data, {indices: false})
 
           @fetch _.extend _.omit(options, 'success', 'error'), {
             data: data

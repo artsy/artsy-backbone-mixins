@@ -107,10 +107,10 @@ module.exports.methods =
 
         )).then(=>
           dfd.resolve this
-          success? this
+          success? this, response, opts
         , =>
           dfd.reject this
-          error? this
+          error? this, response, opts
         ).done()
 
     @fetch options

@@ -70,7 +70,7 @@ module.exports.methods =
 
     options.remove = false
 
-    options.data = decodeURIComponent Qs.stringify(options.data, {indices: false})}
+    options.data = decodeURIComponent Qs.stringify(options.data, {indices: false})
 
     options.error = =>
       dfd.reject arguments...
@@ -91,8 +91,7 @@ module.exports.methods =
         success? this
       else
 
-        if typeof options.data is 'string'
-          options.data = Qs.parse options.data
+        options.data = Qs.parse options.data
 
         remaining = Math.ceil(total / size) - 1
 

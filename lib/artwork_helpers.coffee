@@ -1,6 +1,26 @@
 _ = require 'underscore'
+Image = require './image'
 
 module.exports =
+
+  # Returns the best image url it can find for the index and size.
+  #
+  # param {String} version
+  # param {Number} i
+  # return {String}
+  imageUrl: (version = 'larger', i) ->
+    imgs = @get('images')
+    return unless imgs?.length
+    if i
+      img = _.findWhere(imgs, position: i) or imgs[i] or imgs[0]
+    else
+      img = _.findWhere(imgs, is_default: true) or imgs[0]
+    return unless img
+    url = img.image_urls?[version]
+    url or= img.image_url?.replace(':version', v) if v = img.image_versions?[version]
+    url or= _.values(img.image_urls)[0]
+    url or= img.image_url?.replace(':version', _.first(img.image_versions))
+    url
 
   # Are there comparable artworks;
   # such that we can display a link to auction results

@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "test": "mocha",
-    "postinstall": "./node_modules/.bin/coffee -c lib"
+    "postinstall": "coffee -c lib"
   },
   "dependencies": {
     "marked": "*",

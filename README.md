@@ -236,7 +236,7 @@ feature.bestImageUrl(['large', 'medium', 'small'])
 
 ## Contributing
 
-Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `npm test`.
+Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `npm test`. Be sure to run `npm run build` to compile coffeescript before your pull request.
 
 ## License
 

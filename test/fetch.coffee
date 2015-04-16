@@ -184,7 +184,7 @@ describe 'fetch until end in parallel mixin', ->
         'http://foo.bar/baz'
       ]
       _.map(Backbone.sync.args, (args) -> args[2].data).should.eql [
-        'type=CoolType&type=DumbType&size=12&total_count=1'
-        'type=CoolType&type=DumbType&size=12&page=2'
-        'type=CoolType&type=DumbType&size=12&page=3'
+        'type[]=CoolType&type[]=DumbType&size=12&total_count=1'
+        'type[]=CoolType&type[]=DumbType&size=12&page=2'
+        'type[]=CoolType&type[]=DumbType&size=12&page=3'
       ]

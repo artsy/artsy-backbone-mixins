@@ -33,7 +33,7 @@
     "underscore": "*",
     "backbone": "*",
     "q": "^1.1.2",
-    "qs" : "*"
+    "qs" : "^2.4.1"
   },
   "devDependencies": {
     "antigravity": "git+ssh://git@github.com:artsy/antigravity.git",

@@ -1,5 +1,5 @@
 _ = require 'underscore'
-Q = require 'q'
+Q = require 'bluebird-q'
 Qs = require 'qs'
 Backbone = require 'backbone'
 { parse } = require 'url'

@@ -99,7 +99,7 @@
       })).size;
       options.remove = false;
       options.data = decodeURIComponent(Qs.stringify(options.data, {
-        indices: false
+        arrayFormat: 'brackets'
       }));
       options.error = (function(_this) {
         return function() {
@@ -123,7 +123,7 @@
                 page: n + 2
               });
               data = decodeURIComponent(Qs.stringify(data, {
-                indices: false
+                arrayFormat: 'brackets'
               }));
               return _this.fetch(_.extend(_.omit(options, 'success', 'error'), {
                 data: data

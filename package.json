@@ -29,19 +29,19 @@
     "build": "coffee -c -o out lib"
   },
   "dependencies": {
-    "marked": "*",
-    "underscore": "*",
     "backbone": "*",
-    "q": "^1.1.2",
-    "qs" : "*"
+    "bluebird-q": "^1.0.3",
+    "marked": "*",
+    "qs": "^2.4.1",
+    "underscore": "*"
   },
   "devDependencies": {
     "antigravity": "git+ssh://git@github.com:artsy/antigravity.git",
     "mocha": "*",
     "should": "*",
     "sinon": "*",
-    "q" : "*",
-    "qs" : "*",
+    "q": "*",
+    "qs": "*",
     "coffee-script": "*"
   }
 }

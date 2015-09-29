@@ -18,7 +18,7 @@ module.exports =
     marked @get(attr) or ''
 
   mdToHtmlToText: (attr) ->
-    stripTags(@mdToHtml attr)
+    stripTags(@mdToHtml attr, { sanitize: false })
 
   htmlToText: (attr) ->
     stripTags(@get attr)

@@ -1,9 +1,32 @@
-module.exports =
-  formatTime = (date) ->
+ADDRESS_ATTR = ''
+TITLE_ATTR = ''
+
+module.exports = ({ address_attr, title_attr }) ->
+  ADDRESS_ATTR = address_attr
+  TITLE_ATTR = title_attr
+  module.exports.methods
+
+module.exports.methods =
+  formatTime: formatTime = (date) ->
     new Date(date).toISOString().replace(/-|:|\.\d+/g, '')
 
-  convertToDateTime = (dateInString) ->
-    new Date(dateInString)
+  calulateDurationTime: calulateDurationTime = (end, start) ->
+    endTime = new Date(end).getTime()
+    startTime = new Date(start).getTime()
+    (endTime - startTime) / (60 * 1000)
+
+  convertToYahooDuration: convertToYahooDuration = (end, start) ->
+    eventDuration = calulateDurationTime(end, start)
+
+    yahooHourDuration = if eventDuration < 600 then '0' + Math.floor((eventDuration / 60))
+    else Math.floor((eventDuration / 60)) + ''
+
+    if (eventDuration % 60) < 10
+      yahooMinuteDuration = '0' + (eventDuration % 60)
+    else
+      yahooMinuteDuration = (eventDuration % 60) + ''
+
+    yahooHourDuration + yahooMinuteDuration
 
   googleCalendarUrl: ->
     startTime = formatTime(@get('start_at'))
@@ -12,39 +35,49 @@ module.exports =
     href = encodeURI([
       'https://www.google.com/calendar/render',
       '?action=TEMPLATE',
-      '&text=' + (@get('name') || ''),
+      '&text=' + (@get(TITLE_ATTR) || ''),
       '&dates=' + (startTime || ''),
       '/' + (endTime || ''),
       '&details=' + (@get('description') || ''),
-      '&location=' + (@get('venue_address') || ''),
+      '&location=' + (@get(ADDRESS_ATTR) || ''),
       '&sprop=&sprop=name:'
     ].join(''));
     href
 
   yahooCalendarUrl: ->
-    eventDuration = @get('end_at') ?
-    ((convertToDateTime(@get'end_at').getTime() - convertToDateTime(@get('start_at')).getTime())/ (60 * 1000)) :
-    event.duration
+    # Converts the duration from minutes to hh:mm
+    yahooEventDuration = convertToYahooDuration(@get('end_at'), @get('start_at'))
 
-    # Yahoo dates are crazy, we need to convert the duration from minutes to hh:mm
-    yahooHourDuration = if eventDuration < 600 then '0' + Math.floor((eventDuration / 60)) else Math.floor((eventDuration / 60)) + ''
-
-    yahooMinuteDuration = if eventDuration % 60 < 10 then '0' + eventDuration % 60 else
-    eventDuration % 60 + ''
-
-    yahooEventDuration = yahooHourDuration + yahooMinuteDuration;
-
-    # Remove timezone from event time
-    st = formatTime(convertToDateTime(@get('start_at') - convertToDateTime((@get('start_at'))).getTimezoneOffset() *
-      (60 * 1000))) || ''
+    st =  new Date(@get('start_at')).toISOString().replace(/-|:|\.\d+/g, '')
 
     href = encodeURI([
       'http://calendar.yahoo.com/?v=60&view=d&type=20',
-      '&title=' + (@get('name') || ''),
+      '&title=' + (@get(TITLE_ATTR) || ''),
       '&st=' + st,
       '&dur=' + (yahooEventDuration || ''),
-      '&desc=' + (@get.('description') || ''),
-      '&in_loc=' + (@.get('venue_address') || '')
+      '&desc=' + (@get('description') || ''),
+      '&in_loc=' + (@get(ADDRESS_ATTR) || '')
     ].join(''))
 
+    href
+
+  ics: (event) ->
+    startTime = formatTime(@get('start_at'))
+    endTime = formatTime(@get('end_at'))
+
+    data = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'BEGIN:VEVENT',
+      'DTSTART:' + (startTime || ''),
+      'DTEND:' + (endTime || ''),
+      'SUMMARY:' + (@get(TITLE_ATTR) || ''),
+      'DESCRIPTION:' + (@get('description') || ''),
+      'LOCATION:' + (@get(ADDRESS_ATTR) || ''),
+      'END:VEVENT',
+      'END:VCALENDAR'].join('\n');
+
+    data = 'data:text/calendar;charset=utf8,' + data
+
+    href = encodeURI(data)
     href

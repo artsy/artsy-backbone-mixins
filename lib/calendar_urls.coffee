@@ -61,7 +61,7 @@ module.exports.methods =
 
     href
 
-  ics: (event) ->
+  ics: ->
     startTime = formatTime(@get('start_at'))
     endTime = formatTime(@get('end_at'))
 

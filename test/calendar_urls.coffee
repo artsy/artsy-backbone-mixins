@@ -4,7 +4,7 @@ Backbone = require 'backbone'
 CalendarUrls = require '../lib/calendar_urls'
 
 class Model extends Backbone.Model
-  _.extend @prototype, CalendarUrls({ address_attr: 'venue_address', title_attr: 'name' })
+  _.extend @prototype, CalendarUrls({ address: 'venue_address', title: 'name' })
 
 describe 'calendarUrls Mixin', ->
   beforeEach ->

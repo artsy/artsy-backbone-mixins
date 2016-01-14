@@ -1,9 +1,9 @@
 ADDRESS_ATTR = ''
 TITLE_ATTR = ''
 
-module.exports = ({ address_attr, title_attr }) ->
-  ADDRESS_ATTR = address_attr
-  TITLE_ATTR = title_attr
+module.exports = ({ address, title }) ->
+  ADDRESS_ATTR = address
+  TITLE_ATTR = title
   module.exports.methods
 
 module.exports.methods =

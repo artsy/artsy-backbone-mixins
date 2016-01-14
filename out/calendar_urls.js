@@ -7,10 +7,10 @@
   TITLE_ATTR = '';
 
   module.exports = function(arg) {
-    var address_attr, title_attr;
-    address_attr = arg.address_attr, title_attr = arg.title_attr;
-    ADDRESS_ATTR = address_attr;
-    TITLE_ATTR = title_attr;
+    var address, title;
+    address = arg.address, title = arg.title;
+    ADDRESS_ATTR = address;
+    TITLE_ATTR = title;
     return module.exports.methods;
   };
 
@@ -49,7 +49,7 @@
       href = encodeURI(['http://calendar.yahoo.com/?v=60&view=d&type=20', '&title=' + (this.get(TITLE_ATTR) || ''), '&st=' + st, '&dur=' + (yahooEventDuration || ''), '&desc=' + (this.get('description') || ''), '&in_loc=' + (this.get(ADDRESS_ATTR) || '')].join(''));
       return href;
     },
-    ics: function(event) {
+    ics: function() {
       var data, endTime, href, startTime;
       startTime = formatTime(this.get('start_at'));
       endTime = formatTime(this.get('end_at'));

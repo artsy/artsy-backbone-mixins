@@ -32,6 +32,7 @@
     "backbone": "*",
     "bluebird-q": "^1.0.3",
     "marked": "*",
+    "moment": "^2.11.1",
     "qs": "^2.4.1",
     "underscore": "*"
   },

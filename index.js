@@ -7,4 +7,5 @@ module.exports = {
   Feature: require("./out/feature"),
   CurrentUser: require("./out/current_user"),
   ArtworkHelpers: require("./out/artwork_helpers")
+  CalendarUrls: require("./out/calendar_urls")
 }

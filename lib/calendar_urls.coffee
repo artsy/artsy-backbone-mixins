@@ -1,3 +1,4 @@
+ics = require 'ics'
 ADDRESS_ATTR = ''
 TITLE_ATTR = ''
 
@@ -61,22 +62,18 @@ module.exports.methods =
 
     href
 
-  ics: ->
-    startTime = formatTime(@get('start_at'))
-    endTime = formatTime(@get('end_at'))
+  icsCalendarUrl: ->
+    startTime = new Date(@get('start_at'))
+    endTime = new Date(@get('end_at'))
 
-    data = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'BEGIN:VEVENT',
-      'DTSTART:' + (startTime || ''),
-      'DTEND:' + (endTime || ''),
-      'SUMMARY:' + (@get(TITLE_ATTR) || ''),
-      'DESCRIPTION:' + (@get('description') || ''),
-      'LOCATION:' + (@get(ADDRESS_ATTR) || ''),
-      'END:VEVENT',
-      'END:VCALENDAR'].join('\n');
+    eventOptions =
+      eventName: @get(TITLE_ATTR) || ''
+      dtstart: startTime || ''
+      dtend: endTime || ''
+      description: @get('description') || ''
+      location: @get(ADDRESS_ATTR) || ''
 
+    data = ics.getEvent(eventOptions)
     data = 'data:text/calendar;charset=utf8,' + data
 
     href = encodeURI(data)

@@ -65,12 +65,13 @@ module.exports.methods =
   icsCalendarUrl: ->
     startTime = new Date(@get('start_at'))
     endTime = new Date(@get('end_at'))
+    description = @get('description')?.replace(/(\r\n|\n|\r)/gm, "")
 
     eventOptions =
       eventName: @get(TITLE_ATTR) || ''
       dtstart: startTime || ''
       dtend: endTime || ''
-      description: @get('description') || ''
+      description: description || ''
       location: @get(ADDRESS_ATTR) || ''
 
     data = ics.getEvent(eventOptions)

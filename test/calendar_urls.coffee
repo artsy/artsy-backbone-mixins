@@ -39,4 +39,4 @@ describe 'calendarUrls Mixin', ->
 
   describe '#isc', ->
     it 'returns the url to create ical and outlook calendar events', ->
-      @model.icsCalendarUrl().should.containEql "%0D%0ADTSTART:20150305T123000Z%0D%0ADTEND:20150305T180000Z%0D%0ADESCRIPTION:Leading%20practitioners%20and%20thinkers%20come%20together%20to%20examine%20the%20latest%20trends.%0D%0ASUMMARY:Art%20is%20Life%0D%0AEND:VEVENT%0D%0AEND:VCALENDAR"
+      @model.icsCalendarUrl().should.containEql "BEGIN:VEVENT"

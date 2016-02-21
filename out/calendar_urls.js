@@ -52,14 +52,15 @@
       return href;
     },
     icsCalendarUrl: function() {
-      var data, endTime, eventOptions, href, startTime;
+      var data, description, endTime, eventOptions, href, ref, startTime;
       startTime = new Date(this.get('start_at'));
       endTime = new Date(this.get('end_at'));
+      description = (ref = this.get('description')) != null ? ref.replace(/(\r\n|\n|\r)/gm, "") : void 0;
       eventOptions = {
         eventName: this.get(TITLE_ATTR) || '',
         dtstart: startTime || '',
         dtend: endTime || '',
-        description: this.get('description') || '',
+        description: description || '',
         location: this.get(ADDRESS_ATTR) || ''
       };
       data = ics.getEvent(eventOptions);

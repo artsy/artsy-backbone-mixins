@@ -29,12 +29,12 @@
     "build": "coffee -c -o out lib"
   },
   "dependencies": {
-    "backbone": "*",
+    "backbone": "1.2.3",
     "bluebird-q": "^1.0.3",
     "ics": "^0.4.1",
     "marked": "*",
     "moment": "^2.11.1",
-    "qs": "^2.4.1",
+    "qs": "6.0.1",
     "underscore": "*"
   },
   "devDependencies": {
@@ -43,7 +43,6 @@
     "should": "*",
     "sinon": "*",
     "q": "*",
-    "qs": "*",
     "coffee-script": "*"
   }
 }

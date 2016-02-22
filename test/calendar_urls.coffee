@@ -27,15 +27,15 @@ describe 'calendarUrls Mixin', ->
 
     describe '#formatTime', ->
       it 'formats time to YYYYMMDDT223000Z', ->
-        @model.formatTime(@model.get('start_at')).should.eql "20150305T123000Z"
+        @model.formatTime(@model.get('start_at')).should.eql "20150305T123000"
 
   describe '#googleCalendarUrl', ->
     it 'returns the url to create a google calendar event', ->
-      @model.googleCalendarUrl().should.eql "https://www.google.com/calendar/render?action=TEMPLATE&text=Art%20is%20Life&dates=20150305T123000Z/20150305T180000Z&details=Leading%20practitioners%20and%20thinkers%20come%20together%20to%20examine%20the%20latest%20trends.&location=711%2012th%20Ave,%20New%20York,%20NY%2010019&sprop=&sprop=name:"
+      @model.googleCalendarUrl().should.eql "https://www.google.com/calendar/render?action=TEMPLATE&text=Art%20is%20Life&dates=20150305T123000/20150305T180000&details=Leading%20practitioners%20and%20thinkers%20come%20together%20to%20examine%20the%20latest%20trends.&location=711%2012th%20Ave,%20New%20York,%20NY%2010019&sprop=&sprop=name:"
 
   describe '#yahooCalendarUrl', ->
     it 'returns the url to create a yahoo calendar event', ->
-      @model.yahooCalendarUrl().should.eql "http://calendar.yahoo.com/?v=60&view=d&type=20&title=Art%20is%20Life&st=20150305T123000Z&dur=0530&desc=Leading%20practitioners%20and%20thinkers%20come%20together%20to%20examine%20the%20latest%20trends.&in_loc=711%2012th%20Ave,%20New%20York,%20NY%2010019"
+      @model.yahooCalendarUrl().should.eql "http://calendar.yahoo.com/?v=60&view=d&type=20&title=Art%20is%20Life&st=20150305T123000&dur=0530&desc=Leading%20practitioners%20and%20thinkers%20come%20together%20to%20examine%20the%20latest%20trends.&in_loc=711%2012th%20Ave,%20New%20York,%20NY%2010019"
 
   describe '#isc', ->
     it 'returns the url to create ical and outlook calendar events', ->

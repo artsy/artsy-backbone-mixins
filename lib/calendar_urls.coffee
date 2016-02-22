@@ -1,4 +1,3 @@
-ics = require 'ics'
 ADDRESS_ATTR = ''
 TITLE_ATTR = ''
 
@@ -9,7 +8,7 @@ module.exports = ({ address, title }) ->
 
 module.exports.methods =
   formatTime: formatTime = (date) ->
-    new Date(date).toISOString().replace(/-|:|\.\d+/g, '')
+    new Date(date).toISOString().replace(/-|:|Z|\.\d+/g, '')
 
   calulateDurationTime: calulateDurationTime = (end, start) ->
     endTime = new Date(end).getTime()
@@ -49,7 +48,7 @@ module.exports.methods =
     # Converts the duration from minutes to hh:mm
     yahooEventDuration = convertToYahooDuration(@get('end_at'), @get('start_at'))
 
-    st =  new Date(@get('start_at')).toISOString().replace(/-|:|\.\d+/g, '')
+    st = formatTime @get('start_at')
 
     href = encodeURI([
       'http://calendar.yahoo.com/?v=60&view=d&type=20',
@@ -63,18 +62,23 @@ module.exports.methods =
     href
 
   icsCalendarUrl: ->
-    startTime = new Date(@get('start_at'))
-    endTime = new Date(@get('end_at'))
+    startTime = formatTime @get('start_at')
+    endTime = formatTime @get('end_at')
     description = @get('description')?.replace(/(\r\n|\n|\r)/gm, "")
 
-    eventOptions =
-      eventName: @get(TITLE_ATTR) || ''
-      dtstart: startTime || ''
-      dtend: endTime || ''
-      description: description || ''
-      location: @get(ADDRESS_ATTR) || ''
+    data = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'BEGIN:VEVENT',
+      'DSSTAMP:' + (new Date().toISOString().replace(/-|:|\.\d+/g, ''))
+      'DTSTART:' + (startTime || ''),
+      'DTEND:' + (endTime || ''),
+      'SUMMARY:' + (@get(TITLE_ATTR) || ''),
+      'DESCRIPTION:' + (description || ''),
+      'LOCATION:' + (@get(ADDRESS_ATTR) || ''),
+      'END:VEVENT',
+      'END:VCALENDAR'].join('\n');
 
-    data = ics.getEvent(eventOptions)
     data = 'data:text/calendar;charset=utf8,' + data
 
     href = encodeURI(data)

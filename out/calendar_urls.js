@@ -49,13 +49,16 @@
       href = encodeURI(['http://calendar.yahoo.com/?v=60&view=d&type=20', '&title=' + (this.get(TITLE_ATTR) || ''), '&st=' + st, '&dur=' + (yahooEventDuration || ''), '&desc=' + (this.get('description') || ''), '&in_loc=' + (this.get(ADDRESS_ATTR) || '')].join(''));
       return href;
     },
-    icsCalendarUrl: function() {
-      var data, description, endTime, href, ref, startTime;
+    icsCalendarData: function() {
+      var data, description, endTime, ref, startTime;
       startTime = formatTime(this.get('start_at'));
       endTime = formatTime(this.get('end_at'));
       description = (ref = this.get('description')) != null ? ref.replace(/(\r\n|\n|\r)/gm, "") : void 0;
-      data = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT', 'DSSTAMP:' + (new Date().toISOString().replace(/-|:|\.\d+/g, '')), 'DTSTART:' + (startTime || ''), 'DTEND:' + (endTime || ''), 'SUMMARY:' + (this.get(TITLE_ATTR) || ''), 'DESCRIPTION:' + (description || ''), 'LOCATION:' + (this.get(ADDRESS_ATTR) || ''), 'END:VEVENT', 'END:VCALENDAR'].join('\n');
-      data = 'data:text/calendar;charset=utf8,' + data;
+      return data = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT', 'DSSTAMP:' + (new Date().toISOString().replace(/-|:|\.\d+/g, '')), 'DTSTART:' + (startTime || ''), 'DTEND:' + (endTime || ''), 'SUMMARY:' + (this.get(TITLE_ATTR) || ''), 'DESCRIPTION:' + (description || ''), 'LOCATION:' + (this.get(ADDRESS_ATTR) || ''), 'END:VEVENT', 'END:VCALENDAR'].join('\n');
+    },
+    icsCalendarUrl: function() {
+      var data, href;
+      data = 'data:text/calendar;charset=utf8,' + this.icsCalendarData();
       href = encodeURI(data);
       return href;
     }

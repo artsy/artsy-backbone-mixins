@@ -61,7 +61,7 @@ module.exports.methods =
 
     href
 
-  icsCalendarUrl: ->
+  icsCalendarData: ->
     startTime = formatTime @get('start_at')
     endTime = formatTime @get('end_at')
     description = @get('description')?.replace(/(\r\n|\n|\r)/gm, "")
@@ -79,7 +79,7 @@ module.exports.methods =
       'END:VEVENT',
       'END:VCALENDAR'].join('\n');
 
-    data = 'data:text/calendar;charset=utf8,' + data
-
+  icsCalendarUrl: ->
+    data = 'data:text/calendar;charset=utf8,' + @icsCalendarData()
     href = encodeURI(data)
     href

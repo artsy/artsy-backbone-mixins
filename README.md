@@ -245,6 +245,41 @@ Return an image URL, preferring the earlier versions in `versions` if available,
 feature.bestImageUrl(['large', 'medium', 'small'])
 ```
 
+## Calendar Urls
+
+````coffeescript
+{ CalendarUrls } = require 'artsy-backbone-mixins'
+
+class FairEvent extends Backbone.Model
+
+  _.extend @prototype, CalendarUrls({address: 'venue_address', title: 'name'})
+
+````
+
+### googleCalendarUrl()
+
+Produces a url to create a Google calendar event.
+
+````coffeescript
+event.googleCalendarUrl()
+````
+
+### yahooCalendarUrl()
+
+Produces a url to create a Yahoo calendar event.
+
+````coffeescript
+event.yahooCalendarUrl()
+````
+
+### ics()
+
+Produces a url to create Outlook and iCal calendar event.
+
+````coffeescript
+event.ics()
+````
+
 ## Contributing
 
 Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `npm test`. Be sure to run `npm run build` to compile coffeescript before your pull request.

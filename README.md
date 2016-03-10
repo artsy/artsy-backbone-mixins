@@ -2,6 +2,17 @@
 
 A library of Backbone mixins that DRY up some common domain logic and Artsy API rabbit holes. Used internally at Artsy, but maybe you'll find some useful patterns here.
 
+## Installation
+
+Depends on your project's version of Backbone so remember to install both.
+
+````
+npm install backbone --save
+npm install artsy-backbone-mixins --save
+````
+
+## Usage
+
 Functions are namespaced by common sets of functionality such as "Markdown", "Image", or "Dimensions".
 
 ````coffeescript

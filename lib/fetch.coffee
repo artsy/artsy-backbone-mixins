@@ -1,5 +1,4 @@
 _ = require 'underscore'
-Q = require 'bluebird-q'
 Qs = require 'qs'
 Backbone = require 'backbone'
 { parse } = require 'url'
@@ -62,56 +61,54 @@ module.exports.methods =
   # @param {Object} options Backbone sync options like `success` and `error`
 
   fetchUntilEndInParallel: (options = {}) ->
-    dfd = Q.defer()
+    new Promise (resolve, reject) =>
+      { success, error } = options # Pull out original success and error callbacks
 
-    { success, error } = options # Pull out original success and error callbacks
+      { size } = options.data = _.defaults (options.data or {}), total_count: 1, size: 10
 
-    { size } = options.data = _.defaults (options.data or {}), total_count: 1, size: 10
+      options.remove = false
 
-    options.remove = false
+      options.data = decodeURIComponent Qs.stringify(options.data, { arrayFormat: 'brackets' })
 
-    options.data = decodeURIComponent Qs.stringify(options.data, { arrayFormat: 'brackets' })
+      options.error = =>
+        reject arguments...
+        error? arguments...
 
-    options.error = =>
-      dfd.reject arguments...
-      error? arguments...
+      options.success = (collection, response, opts) =>
+        total = parseInt(
+          # Count when server-side
+          opts?.res?.headers?['x-total-count'] or
+          # Count when client-side
+          opts?.xhr?.getResponseHeader?('X-Total-Count') or
+          # Fallback
+          0
+        )
 
-    options.success = (collection, response, opts) =>
-      total = parseInt(
-        # Count when server-side
-        opts?.res?.headers?['x-total-count'] or
-        # Count when client-side
-        opts?.xhr?.getResponseHeader?('X-Total-Count') or
-        # Fallback
-        0
-      )
+        if response.length >= total # Return if already at the end or no total
+          resolve this
+          success? this
+        else
 
-      if response.length >= total # Return if already at the end or no total
-        dfd.resolve this
-        success? this
-      else
+          options.data = Qs.parse options.data
 
-        options.data = Qs.parse options.data
+          remaining = Math.ceil(total / size) - 1
 
-        remaining = Math.ceil(total / size) - 1
+          Promise.allSettled(_.times(remaining, (n) =>
+            # if stringify flag is passed, convert the data object into a query string
+            # (stringify is used to keep params with arrays formated properly)
+            data = _.extend(_.omit(options.data, 'total_count'), { page: n + 2 })
+            data = decodeURIComponent Qs.stringify(data, { arrayFormat: 'brackets' })
 
-        Q.allSettled(_.times(remaining, (n) =>
-          # if stringify flag is passed, convert the data object into a query string
-          # (stringify is used to keep params with arrays formated properly)
-          data = _.extend(_.omit(options.data, 'total_count'), { page: n + 2 })
-          data = decodeURIComponent Qs.stringify(data, { arrayFormat: 'brackets' })
+            @fetch _.extend _.omit(options, 'success', 'error'), {
+              data: data
+            }
 
-          @fetch _.extend _.omit(options, 'success', 'error'), {
-            data: data
-          }
+          )).then(=>
+            resolve this
+            success? this, response, opts
+          , =>
+            reject this
+            error? this, response, opts
+          )
 
-        )).then(=>
-          dfd.resolve this
-          success? this, response, opts
-        , =>
-          dfd.reject this
-          error? this, response, opts
-        ).done()
-
-    @fetch options
-    dfd.promise
+      @fetch options

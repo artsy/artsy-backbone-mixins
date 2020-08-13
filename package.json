@@ -32,7 +32,7 @@
     "ics": "^0.4.1",
     "marked": "*",
     "moment": "^2.11.1",
-    "qs": "5.2.0",
+    "qs": "6.0.4",
     "underscore": "*"
   },
   "devDependencies": {

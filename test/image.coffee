@@ -10,19 +10,20 @@ describe 'Image Mixin', ->
       class Model extends Backbone.Model
         _.extend @prototype, imageMixin(null, null)
 
-      @model = new Model
+      @model = new Model {
         id: _.uniqueId()
         href: '/cats/bitty'
         title: 'This is a page all about Bitty'
         subtitle: "If you are interested in cats, and specifically the best cat in the world, you've come to the right place"
         image_url: '/bitty/:version'
-        image_versions: ["large_square", "medium_square", "small_square", "medium_rectangle", "large_rectangle","small_rectangle"]
+        image_versions: ["large_square", "medium_square", "small_square", "medium_rectangle", "large_rectangle", "small_rectangle"]
         item_type: 'FeaturedLink'
+      }
 
     describe 'imageUrl', ->
 
       it 'returns missing image', ->
-        @model.set image_versions: []
+        @model.set { image_versions: [] }
         @model.imageUrl('foo').should.equal '/images/missing_image.png'
 
       it 'returns an image URL when passed a valid version', ->
@@ -32,14 +33,15 @@ describe 'Image Mixin', ->
         @model.imageUrl().should.equal '/bitty/large_square'
 
       it 'falls back to any image rather than showing a missing one', ->
-        @model.set image_versions: ['small']
+        @model.set { image_versions: ['small'] }
         @model.imageUrl('large').should.equal '/bitty/small'
 
       describe 'with a round image', ->
         beforeEach ->
-          @model.set
+          @model.set {
             image_versions: [ 'round' ]
             image_url: 'http://stazic1.artsy.net/additional_images/42/:version.jpg'
+          }
 
         it 'returns an image url', ->
           @model.imageUrl('round').should.equal 'http://stazic1.artsy.net/additional_images/42/round.jpg'
@@ -56,7 +58,7 @@ describe 'Image Mixin', ->
         @model.bestImageUrl(['unknown_version', 'other_unknown']).should.equal '/bitty/large_square'
 
       it 'renders missing placeholder if none', ->
-        @model.set image_versions: []
+        @model.set { image_versions: [] }
         @model.bestImageUrl(['small_square', 'medium_square']).should.equal '/images/missing_image.png'
 
   describe 'with an ssl url', ->
@@ -65,14 +67,15 @@ describe 'Image Mixin', ->
       class Model extends Backbone.Model
         _.extend @prototype, imageMixin('https://ssl.artsy.net')
 
-      @model = new Model
+      @model = new Model {
         id: _.uniqueId()
         href: '/cats/bitty'
         title: 'This is a page all about Bitty'
         subtitle: "If you are interested in cats, and specifically the best cat in the world, you've come to the right place"
         image_url: 'http://static0.artsy.net/bitty/:version'
-        image_versions: ["large_square", "medium_square", "small_square", "medium_rectangle", "large_rectangle","small_rectangle"]
+        image_versions: ["large_square", "medium_square", "small_square", "medium_rectangle", "large_rectangle", "small_rectangle"]
         item_type: 'FeaturedLink'
+      }
 
     describe 'with an image url', ->
 

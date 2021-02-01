@@ -25,11 +25,11 @@ describe 'CurrentUser Mixin', ->
   describe '#sync', ->
 
     it 'adds the access token to data for fetches', ->
-      @user.set accessToken: 'foobarbaz'
+      @user.set { accessToken: 'foobarbaz' }
       @user.fetch()
       Backbone.sync.args[0][2].data.access_token.should.equal 'foobarbaz'
 
     xit 'adds the access token to attrs for saves', ->
-      @user.set accessToken: 'foobarbaz'
+      @user.set { accessToken: 'foobarbaz' }
       @user.save()
       Backbone.sync.args[0][2].attrs

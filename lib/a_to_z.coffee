@@ -1,6 +1,6 @@
 _ = require 'underscore'
 
-module.exports =
+module.exports = {
 
   #
   # Collection models must specify what to sort by through an `alphaSortKey` method
@@ -53,7 +53,7 @@ module.exports =
       maxRows = Math.floor(items.length / numberOfColumns)
       items[(i * maxRows + i)..((i + 1) * maxRows + i)] for i in [0...numberOfColumns]
 
-    _.map(letters, (letter) =>
+    _.map(letters, (letter) ->
       models = itemsByLetter[letter]
       items = _.map(models,
         (model) ->
@@ -65,3 +65,4 @@ module.exports =
         columns: itemsToColumns(items, numberOfColumns)
       }
     )
+}

@@ -17,7 +17,7 @@ module.exports = (a, b, c, d, e) ->
 
 #
 # Mixins for the feature page so we can at least keep them consistent across microgravity and force
-module.exports.methods =
+module.exports.methods = {
 
   # Goes down the rabbit hole of APIs necessary to retrieve the data needed to render a
   # feature. Returns an Array of hashes describing these items such as a collection
@@ -44,7 +44,7 @@ module.exports.methods =
   # @return {Array} An array `Set`s
 
   fetchSets: (options = {}) ->
-    @fetchSetsAndItems
+    @fetchSetsAndItems {
       success: (setItems) =>
         # Now that we know how many items need to be mapped, create a callback for those items
         # that need even further data fetched such as a sale's artworks.
@@ -61,26 +61,28 @@ module.exports.methods =
 
           switch orderedSet.get('item_type')
             when 'FeaturedLink'
-              orderedSet.set data: items, type: 'featured links'
+              orderedSet.set { data: items, type: 'featured links' }
               callback()
 
             when 'Sale'
               # We're going to assume we wouldn't stack multiple sales next to each other
               # because that would be silly. So we'll just use the first item.
               # Set it on the feature for convenience.
-              orderedSet.set type: 'artworks'
+              orderedSet.set { type: 'artworks' }
 
-              @set sale: (sale = new Sale items.first().toJSON())
-              sale.fetchArtworks
+              @set { sale: (sale = new Sale items.first().toJSON()) }
+              sale.fetchArtworks {
                 each: options.artworkPageSuccess
-                success: _.bind ((orderedSet, saleArtworks) =>
-                  orderedSet.set
+                success: _.bind ((orderedSet, saleArtworks) ->
+                  orderedSet.set {
                     data: Artworks.fromSale(saleArtworks)
                     display_artist_list: sale.get 'display_artist_list'
+                  }
                   options.artworksSuccess? orderedSet
                   callback()
                 ), @, orderedSet
                 error: (e) -> err = e; callback()
+              }
             else
               callback()
 
@@ -88,6 +90,7 @@ module.exports.methods =
         options.setsSuccess? sets
 
       error: options.error
+    }
 
   setsFromSetItems: (setItems) ->
     _.sortBy _.pluck(setItems, 'orderedSet'), (set) -> set.get 'key'
@@ -106,11 +109,12 @@ module.exports.methods =
     finalHashes = []
     sets = new Backbone.Collection [], { model: FeaturedSet }
     sets.url = "#{API_URL}/api/v1/sets"
-    sets.fetch
-      data:
+    sets.fetch {
+      data: {
         owner_type: 'Feature'
         owner_id: @get 'id'
         size: 50
+      }
       success: (sets) =>
         err = null
         success = _.after sets.length, ->
@@ -123,6 +127,7 @@ module.exports.methods =
 
         for orderedSet in sets.models
           @fetchSet orderedSet, sets, finalHashes, success, error
+    }
 
   fetchSet: (orderedSet, orderedSets, finalHashes, success, error) ->
     itemType = orderedSet.get('item_type')
@@ -136,7 +141,7 @@ module.exports.methods =
       method = 'fetch'
     setItems.url = "#{API_URL}/api/v1/set/#{id}/items"
     setItems.id = id
-    setItems[method]
+    setItems[method] {
       success: (items) ->
         set = orderedSets.get(items.id)
         items = if itemType is 'FeaturedLink' then new FeaturedLinks(items.toJSON()) else items
@@ -146,3 +151,6 @@ module.exports.methods =
         }
         success()
       error: (m, e) -> error(e)
+    }
+
+}

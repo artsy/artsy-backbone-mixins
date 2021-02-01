@@ -48,7 +48,7 @@ describe 'A to Z mixin', ->
       m = new NoDisplayNameModel({ sortable_id: "zz", name: "Z Z" })
       collection = new AToZCollection([], { model: NoDisplayNameModel })
       collection.add m
-      (()-> collection.groupByAlphaWithColumns()).should.throw()
+      (() -> collection.groupByAlphaWithColumns()).should.throw()
 
     it 'requires collection models to have an href method', ->
       class NoHrefModel extends Backbone.Model
@@ -57,7 +57,7 @@ describe 'A to Z mixin', ->
       m = new NoHrefModel({ sortable_id: "zz", name: "Z Z" })
       collection = new AToZCollection([], { model: NoHrefModel })
       collection.add m
-      (()-> collection.groupByAlphaWithColumns()).should.throw()
+      (() -> collection.groupByAlphaWithColumns()).should.throw()
 
     it 'handles link to page', ->
       m0 = new AToZCollectionModel({ sortable_id: "1", name: "Twenty1", artworks_count: 1 })

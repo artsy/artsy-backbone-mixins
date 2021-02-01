@@ -28,9 +28,9 @@
             return;
           }
           return _this.set({
-            authentications: _.reject(_this.get('authentications'), function(auth) {
-              return auth.provider === provider;
-            })
+            authentications: _.reject(_this.get('authentications'))
+          }, function(auth) {
+            return auth.provider === provider;
           });
         };
       })(this));

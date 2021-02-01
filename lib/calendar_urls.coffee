@@ -6,7 +6,7 @@ module.exports = ({ address, title }) ->
   TITLE_ATTR = title
   module.exports.methods
 
-module.exports.methods =
+module.exports.methods = {
   formatTime: formatTime = (date) ->
     new Date(date).toISOString().replace(/-|:|Z|\.\d+/g, '')
 
@@ -41,7 +41,7 @@ module.exports.methods =
       '&details=' + (@get('description') || ''),
       '&location=' + (@get(ADDRESS_ATTR) || ''),
       '&sprop=&sprop=name:'
-    ].join(''));
+    ].join(''))
     href
 
   yahooCalendarUrl: ->
@@ -77,9 +77,10 @@ module.exports.methods =
       'DESCRIPTION:' + (description || ''),
       'LOCATION:' + (@get(ADDRESS_ATTR) || ''),
       'END:VEVENT',
-      'END:VCALENDAR'].join('\n');
+      'END:VCALENDAR'].join('\n')
 
   icsCalendarUrl: ->
     data = 'data:text/calendar;charset=utf8,' + @icsCalendarData()
     href = encodeURI(data)
     href
+}

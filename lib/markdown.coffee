@@ -1,13 +1,14 @@
 _ = require 'underscore'
 marked = require 'marked'
 renderer = new marked.Renderer
+
 stripTags = (str) ->
   return '' unless str?
   String(str).replace(/<\/?[^>]+>/g, '')
 
-module.exports =
+module.exports = {
   mdToHtml: (attr, options = {}) ->
-    marked.setOptions _.defaults options,
+    marked.setOptions _.defaults options, {
       renderer: renderer
       gfm: true
       tables: true
@@ -15,6 +16,7 @@ module.exports =
       pedantic: false
       sanitize: true
       smartypants: false
+    }
     marked @get(attr) or ''
 
   mdToHtmlToText: (attr) ->
@@ -22,3 +24,4 @@ module.exports =
 
   htmlToText: (attr) ->
     stripTags(@get attr)
+}

@@ -1,0 +1,10 @@
+{
+  "max_line_length": {
+    "value": 1000,
+    "level": "error",
+    "limitComments": true
+  },
+  "no_throwing_strings": {
+    "level": "ignore"
+  }
+}

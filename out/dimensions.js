@@ -43,24 +43,22 @@
   };
 
   expressAsMetric = function(string) {
-    return string != null ? string.replace(/((\d+)(?:\s+)(\d+\/\d+)|(\d+\/\d+))/g, (function(_this) {
-      return function(match) {
-        try {
-          match = match.replace(/(\d+\/\d+)/g, fractionToDecimal);
-          return _.map(match.split(' × '), function(x) {
-            var nums;
-            nums = _.map(x.split(' '), function(y) {
-              return parseFloat(y);
-            });
-            return _.reduce(nums, (function(memo, num) {
-              return memo + num;
-            }), 0);
-          }).join(' × ');
-        } catch (error) {
-          return match;
-        }
-      };
-    })(this)) : void 0;
+    return string != null ? string.replace(/((\d+)(?:\s+)(\d+\/\d+)|(\d+\/\d+))/g, function(match) {
+      try {
+        match = match.replace(/(\d+\/\d+)/g, fractionToDecimal);
+        return _.map(match.split(' × '), function(x) {
+          var nums;
+          nums = _.map(x.split(' '), function(y) {
+            return parseFloat(y);
+          });
+          return _.reduce(nums, (function(memo, num) {
+            return memo + num;
+          }), 0);
+        }).join(' × ');
+      } catch (error) {
+        return match;
+      }
+    }) : void 0;
   };
 
 }).call(this);

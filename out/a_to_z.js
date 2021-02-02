@@ -43,25 +43,23 @@
         }
         return results;
       };
-      return _.map(letters, (function(_this) {
-        return function(letter) {
-          var items, models;
-          models = itemsByLetter[letter];
-          items = _.map(models, function(model) {
-            var linkToPage;
-            linkToPage = model.has('artworks_count') ? model.get('artworks_count') > 0 : true;
-            return {
-              href: model.href(),
-              name: model.displayName(),
-              linkToPage: linkToPage
-            };
-          });
+      return _.map(letters, function(letter) {
+        var items, models;
+        models = itemsByLetter[letter];
+        items = _.map(models, function(model) {
+          var linkToPage;
+          linkToPage = model.has('artworks_count') ? model.get('artworks_count') > 0 : true;
           return {
-            letter: letter,
-            columns: itemsToColumns(items, numberOfColumns)
+            href: model.href(),
+            name: model.displayName(),
+            linkToPage: linkToPage
           };
+        });
+        return {
+          letter: letter,
+          columns: itemsToColumns(items, numberOfColumns)
         };
-      })(this));
+      });
     }
   };
 

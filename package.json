@@ -25,23 +25,21 @@
     }
   ],
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --config .mocharc.js test/*.coffee",
     "build": "coffee -c -o out lib"
   },
   "dependencies": {
-    "ics": "^0.4.1",
-    "marked": "*",
-    "moment": "^2.11.1",
-    "qs": "5.2.0",
+    "marked": "^1.2.8",
+    "qs": "^6.9.6",
     "underscore": "*"
   },
   "devDependencies": {
     "antigravity": "git+ssh://git@github.com:artsy/antigravity.git",
-    "mocha": "*",
-    "should": "*",
-    "sinon": "*",
-    "q": "*",
     "backbone": "*",
-    "coffee-script": "*"
+    "coffee-script": "*",
+    "mocha": "8.1.1",
+    "q": "*",
+    "should": "*",
+    "sinon": "*"
   }
 }

@@ -9,7 +9,7 @@ module.exports = (a) ->
   ARTSY_URL = a
   module.exports.methods
 
-module.exports.methods =
+module.exports.methods = {
 
   # For paginated routes, this will recursively fetch until the end of the set.
   #
@@ -19,8 +19,8 @@ module.exports.methods =
     page = options.data?.page - 1 or 0
     opts = _.clone(options)
     fetchPage = =>
-      @fetch _.extend opts,
-        data: _.extend (opts.data ? {}), page: page += 1
+      @fetch _.extend opts, {
+        data: _.extend (opts.data ? {}), { page: page += 1 }
         remove: false
         complete: ->
         success: (col, res) =>
@@ -33,6 +33,7 @@ module.exports.methods =
         error: ->
           options.error? arguments...
           options.complete?()
+      }
     fetchPage()
 
   # Fetches a set by key and populates the collection with the first result.
@@ -41,19 +42,21 @@ module.exports.methods =
   # @param {Object} options Backbone sync options like `success` and `error`
 
   fetchSetItemsByKey: (key, options = {}) ->
-    new Backbone.Collection(null).fetch
+    new Backbone.Collection(null).fetch {
       url: "#{ARTSY_URL}/api/v1/sets?key=#{key}"
       cache: options.cache
       success: (sets) =>
         return options.success(@) unless sets.length
-        new Backbone.Collection(null).fetch
+        new Backbone.Collection(null).fetch {
           url: "#{ARTSY_URL}/api/v1/set/#{sets.first().get 'id'}/items"
           cache: options.cache
           success: (col) =>
             @reset col.toJSON()
             options.success @
           error: options.error
+        }
       error: options.error
+    }
 
   # For paginated routes, this will fetch the first page along with the total count
   # then fetch every remaining page in parallel
@@ -64,13 +67,13 @@ module.exports.methods =
     new Promise (resolve, reject) =>
       { success, error } = options # Pull out original success and error callbacks
 
-      { size } = options.data = _.defaults (options.data or {}), total_count: 1, size: 10
+      { size } = options.data = _.defaults (options.data or {}), { total_count: 1, size: 10 }
 
       options.remove = false
 
       options.data = decodeURIComponent Qs.stringify(options.data, { arrayFormat: 'brackets' })
 
-      options.error = =>
+      options.error = ->
         reject arguments...
         error? arguments...
 
@@ -112,3 +115,4 @@ module.exports.methods =
           )
 
       @fetch options
+}

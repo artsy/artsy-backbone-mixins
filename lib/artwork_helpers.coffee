@@ -1,7 +1,7 @@
 _ = require 'underscore'
 Image = require './image'
 
-module.exports =
+module.exports = {
 
   # Returns the best image url it can find for the index and size.
   #
@@ -12,9 +12,9 @@ module.exports =
     imgs = @get('images')
     return unless imgs?.length
     if i
-      img = _.findWhere(imgs, position: i) or imgs[i] or imgs[0]
+      img = _.findWhere(imgs, { position: i }) or imgs[i] or imgs[0]
     else
-      img = _.findWhere(imgs, is_default: true) or imgs[0]
+      img = _.findWhere(imgs, { is_default: true }) or imgs[0]
     return unless img
     url = img.image_urls?[version]
     url or= img.image_url?.replace(':version', v) if v = img.image_versions?[version]
@@ -58,3 +58,5 @@ module.exports =
   # return {Boolean}
   isUnavailableButInquireable: ->
     not @get('forsale') and @get('inquireable') and not @get('sold')
+
+}

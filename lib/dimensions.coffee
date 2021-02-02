@@ -1,6 +1,6 @@
 _ = require 'underscore'
 
-module.exports =
+module.exports = {
 
   dimensions: (options = {}) ->
     options.metric ?= @get('metric')
@@ -10,6 +10,7 @@ module.exports =
       when 'decimal' then expressAsMetric dimensions
       else dimensions
     dimensions
+}
 
 # Wrap only X Y/Z; leave X/Y alone
 superscriptFractions = (string) ->
@@ -23,7 +24,7 @@ fractionToDecimal = (string) ->
   decimal.toFixed(2)
 
 expressAsMetric = (string) ->
-  string?.replace /((\d+)(?:\s+)(\d+\/\d+)|(\d+\/\d+))/g, (match) =>
+  string?.replace /((\d+)(?:\s+)(\d+\/\d+)|(\d+\/\d+))/g, (match) ->
     try
       # Replace the fractions with decimal representations
       match = match.replace /(\d+\/\d+)/g, fractionToDecimal

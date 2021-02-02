@@ -21,27 +21,30 @@ describe 'fetch until end mixin', ->
   describe '#fetchUntilEnd', ->
 
     it 'keeps fetching until the API returns no results', (done) ->
-      @collection.fetchUntilEnd success: =>
-        @collection.should.have.lengthOf 3
-        done()
+      @collection.fetchUntilEnd {
+        success: =>
+          @collection.should.have.lengthOf 3
+          done()
+      }
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
       Backbone.sync.args[0][2].success []
 
     it 'respects the starting page param passed in the options', (done) ->
-      @collection.fetchUntilEnd
+      @collection.fetchUntilEnd {
         data: { page: 5 }
         success: =>
           @collection.should.have.lengthOf 2
           done()
+      }
       Backbone.sync.args[0][2].data.page.should.equal 5
-      Backbone.sync.args[0][2].success [{ foo: 'bar1' }, {foo: 'bar2'}]
+      Backbone.sync.args[0][2].success [ { foo: 'bar1' }, { foo: 'bar2' } ]
       Backbone.sync.args[0][2].success []
 
     it 'runs the each callback on every page fetch', ->
       eachStub = sinon.stub()
-      @collection.fetchUntilEnd each: eachStub
+      @collection.fetchUntilEnd { each: eachStub }
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
@@ -49,15 +52,19 @@ describe 'fetch until end mixin', ->
       eachStub.callCount.should.equal 4
 
     it 'works with complete with error', (done) ->
-      @collection.fetchUntilEnd complete: =>
-        done()
+      @collection.fetchUntilEnd {
+        complete: ->
+          done()
+      }
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
       Backbone.sync.args[0][2].error()
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
 
     it 'works with complete with success', (done) ->
-      @collection.fetchUntilEnd complete: =>
-        done()
+      @collection.fetchUntilEnd {
+        complete: ->
+          done()
+      }
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
       Backbone.sync.args[0][2].success [{ foo: 'bar' }]
       Backbone.sync.args[0][2].success []
@@ -74,9 +81,11 @@ describe 'fetch set items by key mixin', ->
   describe '#fetchSetItemsByKey', ->
 
     it "fetches the items for the first set by a key", (done) ->
-      @collection.fetchSetItemsByKey 'foo:bar', success: =>
-        @collection.first().get('name').should.equal 'FooBar'
-        done()
+      @collection.fetchSetItemsByKey 'foo:bar', {
+        success: =>
+          @collection.first().get('name').should.equal 'FooBar'
+          done()
+      }
       Backbone.sync.args[0][2].success [
         {
           id: _.uniqueId()
@@ -97,18 +106,22 @@ describe 'fetch set items by key mixin', ->
       Backbone.sync.args[1][2].success [{ name: 'FooBar' }]
 
     it 'returns an empty collection if there are no sets', (done) ->
-      @collection.fetchSetItemsByKey 'foo:bar', success: =>
-        @collection.models.length.should.equal 0
-        done()
+      @collection.fetchSetItemsByKey 'foo:bar', {
+        success: =>
+          @collection.models.length.should.equal 0
+          done()
+      }
       Backbone.sync.args[0][2].success []
 
     it 'retains the collections model definition', ->
       class Foo extends Backbone.Model
         fooId: 'bar'
       @collection.model = Foo
-      @collection.fetchSetItemsByKey 'foo:bar', success: =>
-        @collection.first().fooId.should.equal 'bar'
-        done()
+      @collection.fetchSetItemsByKey 'foo:bar', {
+        success: =>
+          @collection.first().fooId.should.equal 'bar'
+          done()
+      }
       Backbone.sync.args[0][2].success [{}]
 
 
@@ -128,7 +141,7 @@ describe 'fetch until end in parallel mixin', ->
 
     it 'queues up the remaining pages', ->
       @collection.fetchUntilEndInParallel()
-      Backbone.sync.args[0][2].res = headers: 'x-total-count': 77
+      Backbone.sync.args[0][2].res = { headers: { 'x-total-count': 77 } }
       Backbone.sync.args[0][2].success([])
       _.map(Backbone.sync.args, (args) -> args[2].data).should.eql [
         "total_count=1&size=10"
@@ -142,8 +155,11 @@ describe 'fetch until end in parallel mixin', ->
       ]
 
     it 'maintains the original options', ->
-      @collection.fetchUntilEndInParallel(url: 'http://foo.bar/baz', data: zone: 'no-flex', size: 12)
-      Backbone.sync.args[0][2].res = headers: 'x-total-count': 25
+      @collection.fetchUntilEndInParallel({
+        url: 'http://foo.bar/baz',
+        data: { zone: 'no-flex', size: 12, }
+      })
+      Backbone.sync.args[0][2].res = { headers: { 'x-total-count': 25 } }
       Backbone.sync.args[0][2].success([])
       _.map(Backbone.sync.args, (args) -> args[2].url).should.eql [
         'http://foo.bar/baz'
@@ -160,12 +176,12 @@ describe 'fetch until end in parallel mixin', ->
       @collection.fetchUntilEndInParallel().then ->
         Backbone.sync.callCount.should.equal 1
         done()
-      Backbone.sync.args[0][2].res = headers: 'x-total-count': 2
+      Backbone.sync.args[0][2].res = { headers: { 'x-total-count': 2 } }
       Backbone.sync.args[0][2].success(['x', 'x'])
 
     it 'rejects the promise if it errors early', (done) ->
       @collection.fetchUntilEndInParallel().then((->), (-> done()))
-      Backbone.sync.args[0][2].res = headers: 'x-total-count': 20
+      Backbone.sync.args[0][2].res = { headers: { 'x-total-count': 20 } }
       Backbone.sync.args[0][2].error()
 
     it 'supports the success callback'
@@ -175,8 +191,12 @@ describe 'fetch until end in parallel mixin', ->
     it 'supports the each callback' # todo
 
     it 'accepts a string as options.data', ->
-      @collection.fetchUntilEndInParallel(url: 'http://foo.bar/baz', data: {type: ['CoolType', 'DumbType'], size: 12}, stringify: true)
-      Backbone.sync.args[0][2].res = headers: 'x-total-count': 25
+      @collection.fetchUntilEndInParallel({
+        url: 'http://foo.bar/baz',
+        data: { type: ['CoolType', 'DumbType'], size: 12 },
+        stringify: true,
+      })
+      Backbone.sync.args[0][2].res = { headers: { 'x-total-count': 25 } }
       Backbone.sync.args[0][2].success([])
       _.map(Backbone.sync.args, (args) -> args[2].url).should.eql [
         'http://foo.bar/baz'

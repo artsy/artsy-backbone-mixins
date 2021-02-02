@@ -1,6 +1,6 @@
 _ = require 'underscore'
 
-module.exports = (secureImagesUrl, imagesUrlPrefix='http://static%d.artsy.net') ->
+module.exports = (secureImagesUrl, imagesUrlPrefix = 'http://static%d.artsy.net') -> {
 
   defaultImageVersion: ->
     if @has 'image_versions' or @has 'versions'
@@ -34,3 +34,4 @@ module.exports = (secureImagesUrl, imagesUrlPrefix='http://static%d.artsy.net') 
 
     @imagesUrlPrefixRE ?= new RegExp(imagesUrlPrefix.replace('%d', '\\d'))
     url.replace @imagesUrlPrefixRE, secureImagesUrl
+}

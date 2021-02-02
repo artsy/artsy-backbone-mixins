@@ -8,13 +8,14 @@ class Model extends Backbone.Model
 
 describe 'calendarUrls Mixin', ->
   beforeEach ->
-    @model = new Model
+    @model = new Model {
       name: "Art is Life"
       venue: "The Media Lounge on Pier 94"
       description: "Leading practitioners and thinkers come together to examine the latest trends."
       venue_address: "711 12th Ave, New York, NY 10019"
       start_at: "2015-03-05T12:30:00+00:00"
       end_at: "2015-03-05T18:00:00+00:00"
+    }
 
   describe 'helper methods', ->
     describe '#calulateDurationTime', ->

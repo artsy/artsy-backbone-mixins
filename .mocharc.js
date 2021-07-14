@@ -1,7 +1,6 @@
 'use strict'
 
 require('should')
-require('coffee-script/register')
 
 module.exports = {
   exit: true,

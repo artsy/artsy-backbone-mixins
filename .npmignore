@@ -6,8 +6,15 @@ lib-cov
 *.out
 *.pid
 *.gz
+*.tgz
 pids
 logs
 results
 /node_modules
 npm-debug.log
+
+test/
+.eslintrc.js
+.gitignore
+.prettierrc
+.mocharc.js

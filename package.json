@@ -1,6 +1,6 @@
 {
   "name": "@artsy/backbone-mixins",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A library of Backbone mixins that DRY up some common domain logic and Artsy API rabbit holes..",
   "keywords": [
     "backbone",
@@ -25,21 +25,21 @@
     }
   ],
   "scripts": {
-    "test": "mocha --config .mocharc.js test/*.coffee",
-    "build": "coffee -c -o out lib"
+    "test": "mocha --config .mocharc.js test/*.js"
   },
   "dependencies": {
     "marked": "^1.2.8",
     "qs": "^6.9.6",
-    "underscore": "*"
+    "underscore": "^1.12.1"
   },
   "devDependencies": {
     "antigravity": "git+ssh://git@github.com:artsy/antigravity.git",
-    "backbone": "*",
-    "coffee-script": "*",
+    "backbone": "^1.4.0",
+    "eslint": "^7.30.0",
+    "eslint-plugin-mocha": "^9.0.0",
     "mocha": "8.1.1",
-    "q": "*",
-    "should": "*",
-    "sinon": "*"
+    "q": "^1.5.1",
+    "should": "^13.2.3",
+    "sinon": "^9.0.3"
   }
 }

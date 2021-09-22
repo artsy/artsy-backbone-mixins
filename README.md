@@ -1,4 +1,4 @@
-# artsy-backbone-mixins
+# @artsy/backbone-mixins
 
 A library of Backbone mixins that DRY up some common domain logic and Artsy API rabbit holes. Used internally at Artsy, but maybe you'll find some useful patterns here.
 
@@ -8,7 +8,7 @@ Depends on your project's version of Backbone so remember to install both.
 
 ````
 npm install backbone --save
-npm install artsy-backbone-mixins --save
+npm install @artsy/backbone-mixins --save
 ````
 
 ## Usage
@@ -17,7 +17,7 @@ Functions are namespaced by common sets of functionality such as "Markdown", "Im
 
 ````coffeescript
 _ = require 'underscore'
-{ Markdown, Image } = require 'artsy-backbone-mixins'
+{ Markdown, Image } = require '@artsy/backbone-mixins'
 
 class Artwork extends Backbone.Model
 
@@ -28,7 +28,7 @@ class Artwork extends Backbone.Model
 ## Markdown
 
 ````coffeescript
-{ Markdown } = require 'artsy-backbone-mixins'
+{ Markdown } = require '@artsy/backbone-mixins'
 
 class Artwork extends Backbone.Model
 
@@ -63,7 +63,7 @@ artist.htmlToText('biography')
 ## Dimensions
 
 ````coffeescript
-{ Dimensions } = require 'artsy-backbone-mixins'
+{ Dimensions } = require '@artsy/backbone-mixins'
 
 class Artwork extends Backbone.Model
 
@@ -110,7 +110,7 @@ artist.dimensions(format: 'decimal')
 _Remember to pass in the artsy url._
 
 ````coffeescript
-{ Fetch } = require 'artsy-backbone-mixins'
+{ Fetch } = require '@artsy/backbone-mixins'
 { ARTSY_URL } = require('sharify').data
 
 class Artworks extends Backbone.Collection
@@ -151,7 +151,7 @@ featuredLinks.fetchSetItemsByKey 'homepage:featured-sections', success: ->
 ## AToZ
 
 ````coffeescript
-{ AToZ } = require 'artsy-backbone-mixins'
+{ AToZ } = require '@artsy/backbone-mixins'
 
 class Artworks extends Backbone.Collection
 
@@ -209,7 +209,7 @@ artworks.groupByAlphaWithColumns()
 ## Image
 
 ````coffeescript
-{ Image } = require 'artsy-backbone-mixins'
+{ Image } = require '@artsy/backbone-mixins'
 
 class FeaturedLink extends Backbone.Model
 
@@ -248,7 +248,7 @@ feature.bestImageUrl(['large', 'medium', 'small'])
 ## Calendar Urls
 
 ````coffeescript
-{ CalendarUrls } = require 'artsy-backbone-mixins'
+{ CalendarUrls } = require '@artsy/backbone-mixins'
 
 class FairEvent extends Backbone.Model
 
@@ -282,7 +282,7 @@ event.ics()
 
 ## Contributing
 
-Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `npm test`. Be sure to run `npm run build` to compile coffeescript before your pull request.
+Please fork the project and submit a pull request with tests. Install node modules `npm install` and run tests with `npm test`.
 
 ## License
 

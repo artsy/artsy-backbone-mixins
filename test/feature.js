@@ -6,7 +6,7 @@ const Fetch = require('../lib/fetch');
 
 const {
   fabricate
-} = require('antigravity');
+} = require('@artsy/antigravity');
 
 class SaleArtwork extends Backbone.Model {}
 

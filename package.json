@@ -33,7 +33,7 @@
     "underscore": "^1.12.1"
   },
   "devDependencies": {
-    "antigravity": "git+ssh://git@github.com:artsy/antigravity.git",
+    "@artsy/antigravity": "^0.3.0",
     "backbone": "^1.4.0",
     "eslint": "^7.30.0",
     "eslint-plugin-mocha": "^9.0.0",

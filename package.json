@@ -28,7 +28,7 @@
     "test": "mocha --config .mocharc.js test/*.js"
   },
   "dependencies": {
-    "marked": "^1.2.8",
+    "marked": "^2.0.0",
     "qs": "^6.9.6",
     "underscore": "^1.12.1"
   },
